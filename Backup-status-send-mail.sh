@@ -11,7 +11,7 @@ echo $filesvar
 ##===========================================================
 for word in $filesvar;do
     echo "$word"
-	if echo $word | grep -q "ISE_Backup" ; then
+	if echo $word | grep -q "ISE_Backup" | sort -r ; then
 	echo "String Matched"
 	((backupfilecount++))
 	filesize=`du -h $word`
@@ -45,3 +45,8 @@ else
 	#Example instead of using "Backup status ISE Cluster Date" use "Backup-status-ISE-Cluster-Date"
 	`mail -s $Subject xyz@company.com <<< $MessageFail`
 fi
+
+#CRON JOB used
+0 0 * * MON /path/Backup-status-send-mail.sh > /dev/null 2>&1
+{Runs every Week Monday at 00:00}
+##END
